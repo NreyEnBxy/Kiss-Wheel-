@@ -29,12 +29,61 @@
     #kissGif{width:140px;margin-top:8px;border-radius:10px;box-shadow:0 0 10px rgba(255,255,255,0.3);}
     footer{padding:20px;text-align:center;font-size:13px;color:#ccc;}
     footer a{color:#ff5e78;text-decoration:none;}
-    /* Loader */
-    #loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#1f1c2c;display:flex;justify-content:center;align-items:center;z-index:9999;}
-    #loader h2{color:white;animation:pulse 2s infinite;}
-    @keyframes pulse{0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;}}
   </style>
 </head>
+<body>
+  <!-- sounds -->
+  <audio id="spinSound" src="https://files.catbox.moe/g6spg1.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="https://files.catbox.moe/93ef1f.mp3" autoplay loop></audio>
+
+  <!-- header -->
+  <header><div><strong>KissWheels</strong></div><nav>
+    <a href="#game">Game</a><a href="#howto">How to Play</a><a href="#contact">Contact</a>
+  </nav></header>
+
+  <!-- hero -->
+  <div class="hero"><h1>KissWheels Game</h1></div>
+
+  <!-- game section -->
+  <section id="game" class="reveal"><div class="container">
+    <div id="playerInputs"><input id="player1" placeholder="Player 1"><input id="player2" placeholder="Player 2"></div>
+    <div id="optionsList"></div><button id="spinBtn" onclick="spin()">Spin</button>
+    <div id="result"></div><img id="kissGif" style="display:none;"><div id="instruction"></div><div id="roleplay"></div>
+  </div></section>
+
+  <!-- other sections -->
+  <section id="howto" class="reveal"><div class="container"><h2>How to Play</h2><p>Enter player names, click spin and follow the romantic instructions!</p></div></section>
+  <section id="contact" class="reveal"><div class="container"><h2>Contact Developer</h2><p>Developed by Mahdi Shihab – <a href="https://www.facebook.com/personal.shihab" target="_blank">Facebook</a></p></div></section>
+
+  <footer>&copy; 2025 KissWheels | Developed by <a href="https://www.facebook.com/personal.shihab" target="_blank">Mahdi Shihab</a></footer>
+
+  <script>
+    const options=["Lips","Neck","Forehead","Cheeks","Ears","Collarbone","Shoulders","Hands","Wrists","Nose","Back","Chest","Stomach","Inner Thigh","Eyelids","Jawline","Spine","Fingers","Hips","Nape"];
+    const gifs={Lips:"https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",Neck:"https://media.giphy.com/media/3o7qE1YN7aBOFPRw8E/giphy.gif",Forehead:"https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",Cheeks:"https://media.giphy.com/media/k61nOBRRBMxva/giphy.gif"};
+    const roles={Lips:"Gently press your lips and linger a moment.",Neck:"Start slow, use lips only, maybe add a tease.",Forehead:"Whisper a promise and kiss softly.",Cheeks:"Surprise peck with smile."};
+    const list=document.getElementById("optionsList");
+    options.forEach(opt=>{const d=document.createElement("div");d.className="option-box";d.textContent=opt;list.appendChild(d);});
+    function spin(){
+      document.getElementById("spinSound").play();
+      const items=document.querySelectorAll(".option-box");
+      items.forEach(el=>el.classList.remove("highlight"));
+      const idx=Math.floor(Math.random()*options.length);
+      const sel=items[idx];
+      sel.classList.add("highlight");
+      const p1=document.getElementById("player1").value||"Player 1",p2=document.getElementById("player2").value||"Player 2";
+      document.getElementById("result").textContent=`${p1} will kiss ${p2} on ${options[idx]}`;
+      document.getElementById("instruction").textContent="How: "+(roles[options[idx]]||"Use your imagination and make it romantic!");
+      const gif=gifs[options[idx]]||"https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+      const img=document.getElementById("kissGif");
+      img.src=gif; img.style.display="block";
+      document.getElementById("roleplay").textContent="💖 Roleplay: Let the mood guide you...";
+    }
+    window.addEventListener("scroll",()=>{
+      document.querySelectorAll("section").forEach(sec=>{if(sec.getBoundingClientRect().top < innerHeight-100) sec.classList.add("reveal");});
+    });
+  </script>
+</body>
+</html></head>
 <body>
   <!-- loader -->
   <div id="loader"><h2>Loading KissWheels...</h2></div>
